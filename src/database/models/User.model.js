@@ -1,7 +1,7 @@
 import mongoose, { Schema } from 'mongoose';
 import * as enums from '../../utils/enums/index.js';
 import moment from 'moment';
-import { encrypt } from '../../utils/security/encrypt.js';
+import { decrypt, encrypt } from '../../utils/security/encrypt.js';
 import { Hash } from '../../utils/security/hash.js';
 
 // Helper function to check if the provider is NOT Google
@@ -38,12 +38,12 @@ const userSchema = new Schema(
             match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Invalid email format'],
         },
 
-        mobile: {
+        phoneNumber: {
             type: String,
             required: isRequired,
             unique: true,
             trim: true,
-            match: [/^(010|011|012|015)[0-9]{8}$/, 'Invalid Egyptian mobile number'],
+            match: [/^(010|011|012|015)[0-9]{8}$/, 'Invalid Egyptian phoneNumber number'],
         },
 
         password: {
@@ -110,11 +110,24 @@ const userSchema = new Schema(
             },
         ],
     },
-    { timestamps: true }
+    { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
 // Enable virtuals
-userSchema.set('toJSON', { virtuals: true });
+userSchema.set('toJSON', {
+    virtuals: true,
+    transform: function (doc, ret) {
+        ret.userName = `${ret.firstName.toUpperCase()} ${ret.lastName.toUpperCase()}`;
+        ret.userAge = moment().diff(ret.birthDate, 'years');
+        delete ret.firstName;
+        delete ret.lastName;
+        delete ret.password;
+        delete ret.__v;
+        delete ret.id;
+        return ret;
+    },
+});
+
 userSchema.set('toObject', { virtuals: true });
 
 // Virtual property for full name
@@ -122,11 +135,21 @@ userSchema.virtual('userName').get(function () {
     return `${this.firstName} ${this.lastName}`;
 });
 
-// Hash password and encrypt mobile before saving
+// 🔒 Pre-save hook to encrypt before saving
 userSchema.pre('save', function (next) {
-    if (this.isModified('password')) this.password = Hash(this.password);
-    if (this.isModified('mobile')) this.mobile = encrypt(this.mobile);
+    if (this.isModified('password')) {
+        this.password = Hash(this.password);
+        this.changeCredentialTime = Date.now();
+    }
+    if (this.isModified('phoneNumber')) {
+        this.phoneNumber = encrypt(this.phoneNumber);
+    }
     next();
+});
+
+// 🔓 Post-findOne hook to decrypt for findOne queries
+userSchema.post('findOne', function (doc) {
+    if (doc && doc.phoneNumber) doc.phoneNumber = decrypt(doc.phoneNumber);
 });
 
 const User = mongoose.models.User || mongoose.model('User', userSchema);

@@ -41,7 +41,7 @@ const generalFields = {
         'string.empty': 'Password is required',
         'string.pattern.base': 'Password must include uppercase, lowercase, number, and special character',
     }),
-    mobile: createPatternValidation(/^(010|011|012|015)[0-9]{8}$/, {
+    phoneNumber: createPatternValidation(/^(010|011|012|015)[0-9]{8}$/, {
         'any.required': 'Phone is required',
         'string.empty': 'Phone is required',
         'string.base': 'Phone must be a string',
@@ -64,20 +64,6 @@ const generalFields = {
         'string.empty': 'Authorization is required',
         'string.base': 'Authorization must be a string',
     }),
-    headers: {
-        'cache-control': Joi.string(),
-        'user-agent': Joi.string(),
-        'content-type': Joi.string(),
-        'content-length': Joi.string(),
-        accept: Joi.string(),
-        'accept-encoding': Joi.string(),
-        'accept-language': Joi.string(),
-        connection: Joi.string(),
-        host: Joi.string(),
-        origin: Joi.string(),
-        'postman-token': Joi.string(),
-        token: Joi.string(),
-    },
     attachments: Joi.array()
         .items(
             Joi.object().keys({

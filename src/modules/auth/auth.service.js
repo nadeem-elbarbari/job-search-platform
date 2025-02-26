@@ -4,26 +4,14 @@ import User from '../../database/models/User.model.js';
 import { handleError } from '../../middleware/error/errors.middleware.js';
 import { OtpType } from '../../utils/enums/index.js';
 import { EmailEvent } from '../../utils/OTP/otp.js';
-import { Compare, Hash } from '../../utils/security/hash.js';
-import { generateToken, verifyToken } from '../../utils/security/token.js';
+import { Compare } from '../../utils/security/hash.js';
+import { generateAuthTokens, generateToken } from '../../utils/security/token.js';
 import { OAuth2Client } from 'google-auth-library';
 import { decodedToken, TokenTypes } from '../../middleware/auth/auth.middleware.js';
 
-// Helper function to generate authentication tokens (access and refresh tokens)
-const generateAuthTokens = (user) => {
-    // Generate a refresh token (used for long-term authentication)
-    const refreshToken = generateToken(
-        { id: user._id },
-        user.role === 'admin' ? process.env.ADMIN_REFRESH_TOKEN : process.env.USER_REFRESH_TOKEN,
-        process.env.REFRESH_JWT_EXP
-    );
-    // Generate an access token (used for short-term authentication)
-    const accessToken = generateToken(
-        { id: user._id },
-        user.role === 'admin' ? process.env.ADMIN_ACCESS_TOKEN : process.env.USER_ACCESS_TOKEN,
-        process.env.ACCESS_JWT_EXP
-    );
-    return { accessToken, refreshToken };
+// Helper function to handle user existence
+const userNotFound = (user, next) => {
+    if (!user || !user.deletedAt || !user.bannedAt) return handleError('User not found 🙅‍♂️', 404, next);
 };
 
 // Register a new user
@@ -55,7 +43,7 @@ export const emailConfirmation = async (req, res, next) => {
         const user = await db.findOne(User, { email });
 
         // Handle case when user is not found
-        if (!user) return handleError('User not found 🙅‍♂️', 404, next);
+        userNotFound(user, next);
 
         // Check if the email is already confirmed
         if (user.isConfirmed) return handleError('Email already confirmed ⚠️', 400, next);
@@ -89,7 +77,7 @@ export const logIn = async (req, res, next) => {
         const user = await db.findOne(User, { email });
 
         // Handle case when user is not found
-        if (!user) return handleError('User not found 🙅‍♂️', 404, next);
+        userNotFound(user, next);
 
         // Check if the user is confirmed
         if (!user.isConfirmed) return handleError('User is not confirmed 🙅‍♂️', 400, next);
@@ -130,8 +118,8 @@ export const googleAuth = async (req, res, next) => {
         // Check if the user already exists in the database
         const user = await db.findOne(User, { email });
 
-        // Handle case when the user is not registered with Google
-        if (user && user.provider !== 'google') return handleError('Email is not registered with Google 🙅‍♂️', 400, next);
+        if (user && user.provider === 'system')
+            return handleError('Email is already registered with system 🙅‍♂️', 400, next);
 
         // Handle case when the Google account is not verified
         if (!email_verified) return handleError('Your google account is not verified 🙅‍♂️', 401, next);
@@ -168,7 +156,7 @@ export const getForgotPasswordOtp = async (req, res, next) => {
         const user = await db.findOne(User, { email });
 
         // Handle case when user is not found
-        if (!user) return handleError('User not found 🙅‍♂️', 404, next);
+        userNotFound(user, next);
 
         // Send OTP for password reset
         EmailEvent.emit('forgotPassword', { id: user._id, email: user.email, next });
@@ -189,7 +177,7 @@ export const resetPassword = async (req, res, next) => {
         const user = await db.findOne(User, { email });
 
         // Handle case when user is not found
-        if (!user) return handleError('User not found 🙅‍♂️', 404, next);
+        userNotFound(user, next);
 
         // Find the OTP for password reset
         const otp = user.OTP.find((otp) => otp.type === OtpType.FORGOT_PASSWORD);

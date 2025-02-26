@@ -66,7 +66,7 @@ export const decodedToken = async ({ authorization, tokenType, next }) => {
         if (user.deletedAt) return handleError('User not found 🙅‍♂️', 404, next);
 
         // Check if the user's credentials were changed after the token was issued
-        if (moment(user.changeCredentialTime).isAfter(moment.unix(payload.iat))) {
+        if (user.changeCredentialTime && moment(user.changeCredentialTime).isAfter(moment.unix(payload.iat))) {
             return handleError('Login session expired 🙅‍♂️', 400, next);
         }
 

@@ -14,7 +14,7 @@ export const register = Joi.object({
         'string.max': 'Re-password must be at most 20 characters long',
         'string.valid': 'Re-password must match the password',
     }),
-    mobile: generalFields.mobile.required(),
+    phoneNumber: generalFields.phoneNumber.required(),
     birthDate: generalFields.birthDate.required(),
     gender: generalFields.gender.required(),
 });
@@ -59,5 +59,4 @@ export const resetPassword = Joi.object({
 
 export const refreshToken = Joi.object({
     authorization: generalFields.authorization.required(),
-    ...generalFields.headers,
 });

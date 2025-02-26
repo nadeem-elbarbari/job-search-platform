@@ -21,6 +21,6 @@ router.post(createPath('forgotPassword'), validation(validators.getForgotPasswor
 
 router.post(createPath('resetPassword'), validation(validators.resetPassword), service.resetPassword);
 
-router.post(createPath('refreshToken'), validation(validators.refreshToken), service.refreshToken);
+router.post(createPath('refreshToken'), validation(validators.refreshToken, { includeHeaders: true }), service.refreshToken);
 
 export default router;
