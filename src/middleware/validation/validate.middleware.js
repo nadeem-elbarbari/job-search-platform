@@ -1,7 +1,11 @@
 // 🎮 Welcome to the Ultimate Validation Quest! 🏆
 // The Guardian of API Land ensures only worthy adventurers (requests) may pass.
 
-export const validation = (schema, options = { includeHeaders: false, includeFiles: false }) => {
+export const validation = (
+    schema,
+    options = { includeHeaders: false, includeFiles: false },
+    fieldName = 'attachments'
+) => {
     return (req, res, next) => {
         console.log('🎲 Rolling for validation...');
 
@@ -16,12 +20,12 @@ export const validation = (schema, options = { includeHeaders: false, includeFil
                 return []; // No loot this time. 😢
             };
 
-            inputs.attachments = collectLoot(req);
+            inputs[fieldName] = collectLoot(req);
         }
 
         // 🔐 If headers are included, grab the access key (authorization token)
         if (options.includeHeaders && req.headers) {
-            inputs.authorization = req.headers.authorization || '🔒 No Key Found!';
+            inputs.authorization = req.headers.authorization;
         }
 
         // 🧙‍♂️ The Wise Oracle (Joi) shall now judge the adventurer's worth!
@@ -29,7 +33,7 @@ export const validation = (schema, options = { includeHeaders: false, includeFil
 
         // 🚧 If the Oracle detects a flaw, the adventurer must return!
         if (error) {
-            console.log('❌ Validation Failed! A wild error appears!');
+            console.log('⛔ Validation Failed! A wild error appears!');
             const errorMsg = new Error(error.message.replace(/"/g, ''), { cause: 400 });
             return next(errorMsg); // Send them back to the village (error handler)
         }

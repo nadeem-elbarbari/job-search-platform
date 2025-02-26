@@ -60,9 +60,9 @@ const generalFields = {
         custom: 'ID must be a type of ObjectId from MongoDB',
     }),
     authorization: Joi.string().required().messages({
-        'any.required': 'Authorization is required',
-        'string.empty': 'Authorization is required',
-        'string.base': 'Authorization must be a string',
+        'any.required': 'Authorization header is required',
+        'string.empty': 'Authorization header is required',
+        'string.base': 'Authorization header must be a string',
     }),
     attachments: Joi.array()
         .items(
@@ -80,9 +80,9 @@ const generalFields = {
                     .max(5 * 1024 * 1024),
             })
         )
+        .min(1)
         .messages({
             'array.min': 'At least one file is required',
-            'array.max': 'Maximum 3 files are allowed',
         }),
 };
 

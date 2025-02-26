@@ -18,7 +18,7 @@ export const FileTypes = {
 };
 
 // Function to set up file upload with specific filters for allowed file types
-const fileUpload = (fileTypes) => {
+const fileUpload = (fileTypes = []) => {
     // Set up the storage engine (where and how files will be stored)
     const storage = multer.diskStorage({});
 

@@ -1,8 +1,9 @@
-import { errorMiddleWare } from './middleware/error/errors.middleware.js';
 import successResponse from './middleware/success/success.middleware.js';
 import userRouter from './modules/users/users.controller.js';
 import authRouter from './modules/auth/auth.controller.js';
+import companyRouter from './modules/company/company.controller.js';
 import cors from 'cors';
+import { errorMiddleware } from './middleware/error/errors.middleware.js';
 
 const bootstrap = (app, express) => {
     app.use(express.json());
@@ -17,9 +18,9 @@ const bootstrap = (app, express) => {
 
     app.use(successResponse);
 
-    app.use('/api', [userRouter, authRouter]);
+    app.use('/api', [userRouter, authRouter, companyRouter]);
 
-    app.use(errorMiddleWare);
+    app.use(errorMiddleware);
 };
 
 export default bootstrap;

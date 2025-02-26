@@ -1,4 +1,4 @@
-import { Schema, model, models } from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import * as enums from '../../utils/enums/index.js';
 
 const MediaSchema = new Schema(
@@ -17,7 +17,7 @@ const CompanySchema = new Schema(
 
         industry: { type: String, required: true, trim: true },
 
-        address: { type: String, required: true, trim: true },
+        companyAddress: { type: String, required: true, trim: true },
 
         numberOfEmployees: {
             type: String,
@@ -33,17 +33,20 @@ const CompanySchema = new Schema(
 
         coverPic: MediaSchema,
 
-        HRs: [{ type: Schema.Types.ObjectId, ref: 'User' }],
+        HRs: {
+            type: [Schema.Types.ObjectId],
+            ref: 'User',
+        },
 
-        bannedAt: { type: Date, default: null },
+        bannedAt: { type: Date },
 
-        deletedAt: { type: Date, default: null },
+        deletedAt: { type: Date },
 
-        legalAttachment: MediaSchema,
+        legalAttachments: [MediaSchema],
 
         approvedByAdmin: { type: Boolean, default: false },
     },
     { timestamps: true }
 );
 
-export const Company = models.Company || model('Company', CompanySchema);
+export const Company = mongoose.models.Company || mongoose.model('Company', CompanySchema);

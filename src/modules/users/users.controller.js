@@ -5,64 +5,66 @@ import * as validators from './users.validator.js';
 import { authenticate } from '../../middleware/auth/auth.middleware.js';
 import { validation } from '../../middleware/validation/validate.middleware.js';
 import fileUpload, { FileTypes } from '../../middleware/multer.js';
+import { asyncHandler } from "../../middleware/error/errors.middleware.js";
+
 
 const router = Router();
 
 // Helper function to construct paths
 const createPath = (api) => `/users/${api}`;
 
-// GET routes
+// * GET routes
 router.get(
     createPath('me'),
-    authenticate,
     validation(validators.getLoggedInUserProfile, { includeHeaders: true }),
-    service.getLoggedInUserProfile
+    authenticate,
+    asyncHandler(service.getLoggedInUserProfile)
 );
 
 router.get(
     createPath(':id'),
-    authenticate,
     validation(validators.getOtherUserProfile, { includeHeaders: true }),
-    service.getOtherUserProfile
+    authenticate,
+    asyncHandler(service.getOtherUserProfile)
 );
 
-// POST routes
-router.post(
+// * POST routes
+router.patch(
     createPath('updateUserPicture/:type'),
     fileUpload(FileTypes.IMAGES).single('attachments'),
     validation(validators.updateUserPicture, { includeHeaders: true, includeFiles: true }),
     authenticate,
-    service.updateUserPicture
+    asyncHandler(service.updateUserPicture)
 );
 
-// PATCH routes
+// * PATCH routes
 router.patch(
     createPath('updateProfile'),
-    authenticate,
     validation(validators.updateProfile, { includeHeaders: true }),
-    service.updateLoggedInUserProfile
+    authenticate,
+    asyncHandler(service.updateLoggedInUserProfile)
 );
 
 router.patch(
     createPath('updatePassword'),
-    authenticate,
     validation(validators.updatePassword, { includeHeaders: true }),
-    service.updatePassword
+    authenticate,
+    asyncHandler(service.updatePassword)
 );
 
 router.patch(
     createPath('delete/:id'),
     validation(validators.deleteUser, { includeHeaders: true, includeFiles: false }),
     authenticate,
-    service.softDeleteUser
+    asyncHandler(service.softDeleteUser)
 );
 
-// DELETE routes
+// * DELETE routes
 router.delete(
     createPath('deleteUserPicture/:type'),
     validation(validators.deleteUserPicture, { includeHeaders: true, includeFiles: false }),
     authenticate,
-    service.deleteUserPicture
+    asyncHandler(service.deleteUserPicture)
 );
 
 export default router;
