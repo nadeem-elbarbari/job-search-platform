@@ -1,4 +1,4 @@
-import { Schema, model, models } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 import * as enums from '../../utils/enums/index.js';
 
 const JobOpportunitySchema = new Schema(
@@ -25,7 +25,13 @@ const JobOpportunitySchema = new Schema(
 
         companyId: { type: Schema.Types.ObjectId, ref: 'Company', required: true },
     },
-    { timestamps: true }
+    { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
-export const JobOpportunity = models.JobOpportunity || model('JobOpportunity', JobOpportunitySchema);
+JobOpportunitySchema.virtual('applications', {
+    ref: 'Application',
+    localField: '_id',
+    foreignField: 'jobId',
+});
+
+export const JobOpportunity = mongoose.models.JobOpportunity || model('JobOpportunity', JobOpportunitySchema);

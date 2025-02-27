@@ -6,6 +6,7 @@ import { Hash } from '../security/hash.js';
 import { htmlTemplate } from './html.js';
 import sendMail from '../nodemailer.js';
 import User from '../../database/models/User.model.js';
+import { jobHtml } from './jobhtml.js';
 
 // Generates a unique OTP of 6 digits using nanoid
 const nanoid = customAlphabet('1234567890', 6);
@@ -60,7 +61,7 @@ const OtpEmail = async (data, type) => {
         sendMail(email, type === OtpType.CONFIRM_EMAIL ? 'Confirm your email' : 'Reset your password', html);
     } catch (error) {
         // Log an error if there was an issue updating the OTP
-        console.log('Error updating OTP:', error);  
+        console.log('Error updating OTP:', error);
         next(error);
     }
 };
@@ -70,3 +71,8 @@ EmailEvent.on('confirmEmail', (data) => OtpEmail(data, OtpType.CONFIRM_EMAIL));
 
 // Register an event listener for 'forgotPassword' to trigger the OTP email function
 EmailEvent.on('forgotPassword', (data) => OtpEmail(data, OtpType.FORGOT_PASSWORD));
+
+EmailEvent.on('applicationStatus', (data) => {
+    const { email, name, jobTitle, companyName, status } = data;
+    sendMail(email, `Your application has been ${status}`, jobHtml(name, jobTitle, companyName, status));
+});

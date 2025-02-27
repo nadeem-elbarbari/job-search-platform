@@ -57,4 +57,14 @@ const appStatus = {
     REJECTED: 'rejected',
 };
 
-export { UserGender, UserRoles, ProviderType, OtpType, jobLocation, workingTime, seniorityLevel, numberOfEmployees, appStatus };
+export {
+    UserGender,
+    UserRoles,
+    ProviderType,
+    OtpType,
+    jobLocation,
+    workingTime,
+    seniorityLevel,
+    numberOfEmployees,
+    appStatus,
+};

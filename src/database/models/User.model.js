@@ -119,6 +119,8 @@ userSchema.set('toJSON', {
     transform: function (doc, ret) {
         ret.userName = `${ret.firstName.toUpperCase()} ${ret.lastName.toUpperCase()}`;
         ret.userAge = moment().diff(ret.birthDate, 'years');
+        ret.birthDate = moment(ret.birthDate).format('YYYY-MM-DD');
+        ret.phoneNumber = decrypt(ret.phoneNumber);
         delete ret.firstName;
         delete ret.lastName;
         delete ret.password;

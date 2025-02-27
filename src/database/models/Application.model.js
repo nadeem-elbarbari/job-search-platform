@@ -16,8 +16,8 @@ const ApplicationSchema = new mongoose.Schema(
         },
 
         userCV: {
-            secure_url: { type: String, required: true },
-            public_id: { type: String, required: true },
+            secure_url: { type: String },
+            public_id: { type: String },
         },
 
         status: {
@@ -30,4 +30,4 @@ const ApplicationSchema = new mongoose.Schema(
     { timestamps: true }
 );
 
-export default mongoose.model('Application', ApplicationSchema);
+export const Application = mongoose.models.Application || mongoose.model('Application', ApplicationSchema);

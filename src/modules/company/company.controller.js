@@ -12,6 +12,8 @@ const createPath = (path) => `/company/${path}`;
 // GET routes
 router.get(createPath('search'), asyncHandler(service.searchByName));
 
+router.get(createPath(':companyId'), asyncHandler(service.getCompany));
+
 // POST routes
 
 router.post(

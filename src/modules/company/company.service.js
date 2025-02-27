@@ -56,7 +56,8 @@ export const updateCompany = async (req, res, next) => {
         _id: companyId,
         deletedAt: { $exists: false },
         bannedAt: { $exists: false },
-    }); // TODO: check if company approved by admin
+    }); 
+
     if (!company) return handleError('⛔ Company not found 🤒', 404, next);
 
     // Check if the logged-in user is the creator of the company
@@ -78,7 +79,9 @@ export const deleteCompany = async (req, res, next) => {
         _id: companyId,
         deletedAt: { $exists: false },
         bannedAt: { $exists: false },
-    }); // TODO: check if company approved by admin
+    }); 
+    
+    
     if (!company) return handleError('⛔ Company not found 🤒', 404, next);
 
     // Check if the logged-in user is the creator of the company or an admin
@@ -181,4 +184,12 @@ export const deletePicture = async (req, res, next) => {
     res.success(undefined, `🗑️ ${pictureType.replace(/([A-Z])/g, ' $1').toLowerCase()} deleted successfully!`);
 };
 
-// TODO: Get specific company with related jobs
+
+export const getCompany = async (req, res, next) => {
+    const { companyId } = req.params;
+
+    const company = await Company.findById(companyId).populate('jobs');
+    if (!company) return handleError('⛔ Company not found', 404, next);
+
+    res.success(company, '🏢 Company found successfully!');
+};
