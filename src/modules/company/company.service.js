@@ -2,6 +2,10 @@ import { Company } from '../../database/models/Company.models.js';
 import { handleError } from '../../middleware/error/errors.middleware.js';
 import * as db from '../../database/db.service.js';
 import { deletePictureFromCloudinary, updatePicture, uploadMultipleFiles } from '../../utils/cloudinary.js';
+import { Application } from '../../database/models/Application.model.js';
+import ExcelJS from 'exceljs';
+import mongoose from 'mongoose';
+import sendMail from '../../utils/nodemailer.js';
 
 // Helper function to check Company existence by name or email
 const checkCompanyExistence = async (companyName, companyEmail) => {
@@ -56,7 +60,7 @@ export const updateCompany = async (req, res, next) => {
         _id: companyId,
         deletedAt: { $exists: false },
         bannedAt: { $exists: false },
-    }); 
+    });
 
     if (!company) return handleError('⛔ Company not found 🤒', 404, next);
 
@@ -79,9 +83,8 @@ export const deleteCompany = async (req, res, next) => {
         _id: companyId,
         deletedAt: { $exists: false },
         bannedAt: { $exists: false },
-    }); 
-    
-    
+    });
+
     if (!company) return handleError('⛔ Company not found 🤒', 404, next);
 
     // Check if the logged-in user is the creator of the company or an admin
@@ -147,7 +150,7 @@ export const searchByName = async (req, res, next) => {
 export const uploadLogoAndCover = async (req, res, next) => {
     const { companyId, type } = req.params;
     const company = await Company.findOne({ _id: companyId });
-    if (!company) return handleError('⛔ Not Found', 404, next);
+    if (!company) return handleError('⛔ Company Not Found', 404, next);
 
     if (company.createdBy.toString() !== req.user._id.toString())
         return handleError('⛔ Only the creator can update the company!', 403, next);
@@ -167,7 +170,7 @@ export const deletePicture = async (req, res, next) => {
     const { type, companyId } = req.params;
 
     const company = await Company.findOne({ _id: companyId });
-    if (!company) return handleError('⛔ Not Found', 404, next);
+    if (!company) return handleError('⛔ Company Not Found', 400, next);
 
     if (company.createdBy.toString() !== req.user._id.toString())
         return handleError('⛔ Only the creator can update the company!', 403, next);
@@ -184,7 +187,6 @@ export const deletePicture = async (req, res, next) => {
     res.success(undefined, `🗑️ ${pictureType.replace(/([A-Z])/g, ' $1').toLowerCase()} deleted successfully!`);
 };
 
-
 export const getCompany = async (req, res, next) => {
     const { companyId } = req.params;
 
@@ -192,4 +194,91 @@ export const getCompany = async (req, res, next) => {
     if (!company) return handleError('⛔ Company not found', 404, next);
 
     res.success(company, '🏢 Company found successfully!');
+};
+
+export const exportToExcel = async (req, res, next) => {
+    // check if the logged-in user is the creator of the company or hr
+
+    const { companyId } = req.params;
+    const { date } = req.query;
+
+    const company = await Company.findOne({ _id: companyId });
+    if (!company) {
+        return next(new Error('Company not found.'));
+    }
+
+    const hr = await Company.exists({ _id: companyId, hr: req.user._id });
+    const owner = await Company.exists({ _id: companyId, createdBy: req.user._id }).lean();
+
+    if (!owner && !hr) {
+        return next(new Error('You are not authorized to export applications for this company.'));
+    }
+
+    if (!date) {
+        return next(new Error('Date query parameter is required.'));
+    }
+
+    // Convert date to range (from start to end of the day)
+    const startOfDay = new Date(date);
+    startOfDay.setHours(0, 0, 0, 0);
+
+    const endOfDay = new Date(date);
+    endOfDay.setHours(23, 59, 59, 999);
+
+    // Fetch applications for jobs belonging to the specified company
+    const applications = await Application.find({
+        createdAt: { $gte: startOfDay, $lte: endOfDay },
+    })
+        .populate({
+            path: 'jobId',
+            match: { companyId: new mongoose.Types.ObjectId(companyId) }, // Filter jobs by company
+            select: 'jobTitle',
+        })
+        .populate('userId', 'firstName lastName email') // Get applicant details
+        .lean();
+
+    // Filter out applications where jobId doesn't match
+    const filteredApplications = applications.filter((app) => app.jobId);
+
+    if (filteredApplications.length === 0) {
+        return res.status(404).json({ message: 'No applications found for this date.' });
+    }
+
+    // Create an Excel workbook and worksheet
+    const workbook = new ExcelJS.Workbook();
+    const worksheet = workbook.addWorksheet('Job Applications');
+
+    // Define columns
+    worksheet.columns = [
+        { header: 'Applicant Name', key: 'name', width: 25 },
+        { header: 'Applicant Email', key: 'email', width: 30 },
+        { header: 'Job Title', key: 'jobTitle', width: 25 },
+        { header: 'Application Status', key: 'status', width: 20 },
+        { header: 'Applied Date', key: 'createdAt', width: 20 },
+        { header: 'CV Link', key: 'cvLink', width: 50 },
+    ];
+
+    // Add rows to the worksheet
+    filteredApplications.forEach((app) => {
+        worksheet.addRow({
+            name: app.userId.firstName + ' ' + app.userId.lastName,
+            email: app.userId.email,
+            jobTitle: app.jobId.jobTitle,
+            status: app.status,
+            createdAt: app.createdAt.toISOString().split('T')[0], // Format date
+            cvLink: app.userCV?.secure_url || 'No CV Uploaded',
+        });
+    });
+
+    const buffer = await workbook.xlsx.writeBuffer();
+
+    await sendMail(
+        company.companyEmail,
+        'Job Applications Report',
+        '<p>Here is the job applications report for today.</p>',
+        buffer,
+        'Job_Applications.xlsx'
+    );
+
+    res.success(undefined, '✅ Job applications exported successfully!');
 };

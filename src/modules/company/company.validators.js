@@ -61,11 +61,22 @@ export const createCompany = Joi.object({
     }),
 });
 
-export const updateCompany = Joi.object({
-    ...companyFields,
+export const getCompany = Joi.object({
     authorization: generalFields.authorization,
-    id: generalFields.id.required(),
+    companyId: generalFields.id.required(),
 });
+
+export const updateCompany = Joi.object({
+    companyName: Joi.string(),
+    companyEmail: Joi.string().email(),
+    companyAddress: Joi.string(),
+    description: Joi.string(),
+    industry: Joi.string(),
+    numberOfEmployees: Joi.string().valid(...Object.keys(numberOfEmployees)),
+    HRs: Joi.array().items(generalFields.id),
+    authorization: generalFields.authorization,
+    companyId: generalFields.id.required(),
+}).or('companyName', 'companyEmail', 'companyAddress', 'description', 'industry', 'numberOfEmployees', 'HRs');
 
 export const deleteCompany = Joi.object({
     authorization: generalFields.authorization,

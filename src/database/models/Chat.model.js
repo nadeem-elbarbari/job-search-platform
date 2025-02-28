@@ -5,7 +5,7 @@ import { Company } from './Company.models.js';
 const MessageSchema = new mongoose.Schema(
     {
         content: { type: String, required: true },
-        senderId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+        senderId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     },
     { timestamps: true }
 );
@@ -14,7 +14,7 @@ const ChatSchema = new mongoose.Schema(
     {
         messages: [MessageSchema],
         senderId: {
-            type: Schema.Types.ObjectId,
+            type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
             required: true,
             validate: {
@@ -32,7 +32,7 @@ const ChatSchema = new mongoose.Schema(
                 message: 'Sender must be a company owner or HR',
             },
         },
-        recieverId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+        recieverId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     },
     { timestamps: true }
 );

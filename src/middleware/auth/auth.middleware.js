@@ -67,7 +67,7 @@ export const decodedToken = async ({ authorization, tokenType, next }) => {
 
         // Check if the user's credentials were changed after the token was issued
         if (user.changeCredentialTime && moment(user.changeCredentialTime).isAfter(moment.unix(payload.iat))) {
-            return handleError('Login session expired 🙅‍♂️', 400, next);
+            return handleError('Login session expired 🙅‍♂️', 401, next);
         }
 
         return user; // Return the authenticated user object

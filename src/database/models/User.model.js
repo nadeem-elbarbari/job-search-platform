@@ -110,17 +110,13 @@ const userSchema = new Schema(
             },
         ],
     },
-    { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
+    { timestamps: true }
 );
 
 // Enable virtuals
 userSchema.set('toJSON', {
     virtuals: true,
     transform: function (doc, ret) {
-        ret.userName = `${ret.firstName.toUpperCase()} ${ret.lastName.toUpperCase()}`;
-        ret.userAge = moment().diff(ret.birthDate, 'years');
-        ret.birthDate = moment(ret.birthDate).format('YYYY-MM-DD');
-        ret.phoneNumber = decrypt(ret.phoneNumber);
         delete ret.firstName;
         delete ret.lastName;
         delete ret.password;
@@ -141,7 +137,6 @@ userSchema.virtual('userName').get(function () {
 userSchema.pre('save', function (next) {
     if (this.isModified('password')) {
         this.password = Hash(this.password);
-        this.changeCredentialTime = Date.now();
     }
     if (this.isModified('phoneNumber')) {
         this.phoneNumber = encrypt(this.phoneNumber);

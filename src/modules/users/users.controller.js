@@ -5,15 +5,14 @@ import * as validators from './users.validator.js';
 import { authenticate } from '../../middleware/auth/auth.middleware.js';
 import { validation } from '../../middleware/validation/validate.middleware.js';
 import fileUpload, { FileTypes } from '../../middleware/multer.js';
-import { asyncHandler } from "../../middleware/error/errors.middleware.js";
-
+import { asyncHandler } from '../../middleware/error/errors.middleware.js';
 
 const router = Router();
 
 // Helper function to construct paths
 const createPath = (api) => `/users/${api}`;
 
-// * GET routes
+// * GET Routes 🚀
 router.get(
     createPath('me'),
     validation(validators.getLoggedInUserProfile, { includeHeaders: true }),
@@ -28,8 +27,8 @@ router.get(
     asyncHandler(service.getOtherUserProfile)
 );
 
-// * POST routes
-router.patch(
+// * POST Routes ✉️
+router.post(
     createPath('updateUserPicture/:type'),
     fileUpload(FileTypes.IMAGES).single('attachments'),
     validation(validators.updateUserPicture, { includeHeaders: true, includeFiles: true }),
@@ -37,7 +36,7 @@ router.patch(
     asyncHandler(service.updateUserPicture)
 );
 
-// * PATCH routes
+// * PATCH Routes 🛠️
 router.patch(
     createPath('updateProfile'),
     validation(validators.updateProfile, { includeHeaders: true }),
@@ -59,7 +58,7 @@ router.patch(
     asyncHandler(service.softDeleteUser)
 );
 
-// * DELETE routes
+// * DELETE Routes ❌
 router.delete(
     createPath('deleteUserPicture/:type'),
     validation(validators.deleteUserPicture, { includeHeaders: true, includeFiles: false }),

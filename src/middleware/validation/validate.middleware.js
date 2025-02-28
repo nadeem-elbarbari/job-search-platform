@@ -1,45 +1,45 @@
-// 🎮 Welcome to the Ultimate Validation Quest! 🏆
-// The Guardian of API Land ensures only worthy adventurers (requests) may pass.
+// Validation Middleware: Ensures request data conforms to the specified schema before proceeding.
 
 export const validation = (
-    schema,
-    options = { includeHeaders: false, includeFiles: false },
-    fieldName = 'attachments'
+    schema, // Joi schema used for data validation
+    options = { includeHeaders: false, includeFiles: false }, // Configuration options for including headers and file data
+    fieldName = 'attachments' // Field name for file uploads (defaults to 'attachments')
 ) => {
     return (req, res, next) => {
-        console.log('🎲 Rolling for validation...');
+        // Log the start of the validation process
+        console.log('Starting validation process.');
 
-        // 🏹 Gather all inventory items (body, params, and query)
+        // Combine request body, query parameters, and URL parameters for validation
         let inputs = { ...req.body, ...req.params, ...req.query };
 
-        // 📦 If file uploads are enabled, collect the loot!
+        // If file uploads are required, collect the files from the request
         if (options.includeFiles && (req.file || req.files)) {
-            const collectLoot = (req) => {
-                if (Array.isArray(req.files)) return req.files; // Multiple treasures found!
-                if (req.file) return [req.file]; // A single legendary artifact.
-                return []; // No loot this time. 😢
+            const collectFiles = (req) => {
+                if (Array.isArray(req.files)) return req.files; // Handle multiple files
+                if (req.file) return [req.file]; // Handle single file upload
+                return []; // No files found
             };
 
-            inputs[fieldName] = collectLoot(req);
+            inputs[fieldName] = collectFiles(req);
         }
 
-        // 🔐 If headers are included, grab the access key (authorization token)
+        // If headers need to be validated, include authorization token or other header data
         if (options.includeHeaders && req.headers) {
-            inputs.authorization = req.headers.authorization;
+            inputs.authorization = req.headers.authorization; // Collect authorization token if available
         }
 
-        // 🧙‍♂️ The Wise Oracle (Joi) shall now judge the adventurer's worth!
+        // Perform schema validation using Joi
         const { error } = schema.validate(inputs, { abortEarly: false });
 
-        // 🚧 If the Oracle detects a flaw, the adventurer must return!
+        // If validation fails, return a descriptive error
         if (error) {
-            console.log('⛔ Validation Failed! A wild error appears!');
+            console.error('Validation failed:', error.message);
             const errorMsg = new Error(error.message.replace(/"/g, ''), { cause: 400 });
-            return next(errorMsg); // Send them back to the village (error handler)
+            return next(errorMsg); // Forward the error to the error handling middleware
         }
 
-        // 🌟 Validation Passed! Level Up! Proceed to the next middleware.
-        console.log('✅ Validation Success! The adventurer may pass.');
+        // Validation passed; proceed to the next middleware or route handler
+        console.log('Validation successful; proceeding to the next middleware.');
         return next();
     };
 };

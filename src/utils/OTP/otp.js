@@ -1,5 +1,4 @@
 import EventEmitter from 'events';
-import * as db from '../../database/db.service.js';
 import { OtpType } from '../enums/index.js';
 import { customAlphabet } from 'nanoid';
 import { Hash } from '../security/hash.js';

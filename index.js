@@ -13,14 +13,22 @@
 //         Welcome to the Magical Realm of Express!
 //            The Magic Awaits You ✨
 
-
 import express from 'express';
 import connectDB from './src/database/connect.js';
 import bootstrap from './src/app.controller.js';
+import { Server } from 'socket.io';
+import http from 'http';
 import './src/utils/cronJob.js';
 
 // 🏰 The Kingdom of Express: Summoning the magic!
 const app = express();
+const server = http.createServer(app);
+
+export const io = new Server(server, {
+    cors: {
+        origin: '*',
+    },
+});
 
 // 🔮 Casting the Bootstrap Spell to initialize the app
 bootstrap(app, express);
