@@ -1,0 +1,1044 @@
+{
+	"info": {
+		"_postman_id": "1a38aac1-1a6c-48da-8cfd-b0d5dd47497a",
+		"name": "ExpressExam",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32070116"
+	},
+	"item": [
+		{
+			"name": "AUTH",
+			"item": [
+				{
+					"name": "REGISTER",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstName\": \"Nadeem\",\r\n    \"lastName\": \"Ehab\",\r\n    \"email\": \"nadeem.tito@gmail.com\",\r\n    \"password\": \"Abcd@12345\",\r\n    \"rePassword\": \"Abcd@12345\",\r\n    \"gender\": \"male\",\r\n    \"phoneNumber\": \"01013626270\",\r\n    \"birthDate\": \"1994-12-01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/auth/register",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EMAIL CONFIRMATION",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"nadeem.tito@gmail.com\",\r\n    \"code\":\"083089\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/auth/confirmEmail",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"auth",
+								"confirmEmail"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOGIN",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\":\"nadeem.ehab@yahoo.com\",\r\n    \"password\":\"Abcd@1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/auth/login",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GOOGLE AUTH",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"token\": \"eyJhbGciOiJSUzI1NiIsImtpZCI6Ijc2M2Y3YzRjZDI2YTFlYjJiMWIzOWE4OGY0NDM0ZDFmNGQ5YTM2OGIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2FjY291bnRzLmdvb2dsZS5jb20iLCJhenAiOiI4MzYyOTAwODAwMzUtNDA2bzRqbDhwa2JqOWU5MGp0ZTZ2bWpvZDM1cHEzaWguYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJhdWQiOiI4MzYyOTAwODAwMzUtNDA2bzRqbDhwa2JqOWU5MGp0ZTZ2bWpvZDM1cHEzaWguYXBwcy5nb29nbGV1c2VyY29udGVudC5jb20iLCJzdWIiOiIxMDEyNzgyMTk2MDQ4MTA4MTE4NDUiLCJlbWFpbCI6Im5hZGVlbS5lbGJhcmJhcmlAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsIm5iZiI6MTc0MDUyMzM4MiwibmFtZSI6Im5hZGVlbSBlaGFiIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0pralJTV2FaWndVejZGN29DNmd0aTAtWnUxQTlNUjd6bmtuMnhKeTc1WWxZY05FdFQxPXM5Ni1jIiwiZ2l2ZW5fbmFtZSI6Im5hZGVlbSIsImZhbWlseV9uYW1lIjoiZWhhYiIsImlhdCI6MTc0MDUyMzY4MiwiZXhwIjoxNzQwNTI3MjgyLCJqdGkiOiI3ZmQ2Njk0MDkzOWU0YzEwNTdlODcyYTIxZDZiZGUxNTA1NTQ3MTAwIn0.Xnb37dJOPFfJG5h87x3bkgCsN1PVFXJExWVoHFWncMvTcqmUSUxglEf0bG-WDRXc7iEO-IhiQwS8hSlHOAAC65MRNaAdj2PCoYW5cJxeVlbsuY8Bb5Y79yl6tDcW50--5XNBd94Z1sCYxkK2DBNGvS-1MpF-kg7el_Kk7yk8AqED4g-8jD0BqLrhcH_FUcyRWOL2iDBbWFHgPS3zh2vvffnnKSqe7I_263IEgMK81GdesfcPkCcn49qGmTQb03drlDL3LgCNyKzfhN9v0mffGv_W-bXRl1UZjI-cSGr49hQRw-UoFkYNQJPPJlKcDuyEFzKGYs9NswHR5Zftp8Ym9A\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/auth/googleAuth",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"auth",
+								"googleAuth"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FORGOT PASSWORD",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"nadeem.tito@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/auth/forgotPassword",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"auth",
+								"forgotPassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "RESET PASSWORD",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"code\": \"710319\",\r\n    \"email\": \"nadeem.tito@gmail.com\",\r\n    \"newPassword\": \"Abcd@1234\",\r\n    \"rePassword\": \"Abcd@1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/auth/resetPassword",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"auth",
+								"resetPassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "REFRESH TOKEN",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzIyOTAwZDFjNDc4NmJlNDA2NDc4YSIsImlhdCI6MTc0MDc3Nzg4MSwiZXhwIjoxNzQxMzgyNjgxfQ.FPhZ1LjV_U2XB93mW46AMNxXkOcp_aYjs43frfnfnIA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/auth/refreshToken",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"auth",
+								"refreshToken"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "USERS",
+			"item": [
+				{
+					"name": "UPDATE LOGGED IN PROFILE",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzFjOWM4MTk4ZDBlMzdlYmQwMmY3YSIsImlhdCI6MTc0MDc1MzU4NSwiZXhwIjoxNzQwODM5OTg1fQ.jNTxNO95SotJ6_-TAFBSHBMO6lPg9RCuh4TGhJQ_ztc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"phoneNumber\": \"01123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/users/updateProfile",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"users",
+								"updateProfile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE PASSWORD",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YmNkMzE2NWVmZTgxZDM1YjRhNGY3YyIsImlhdCI6MTc0MDQ2MDAwNSwiZXhwIjoxNzQwNTQ2NDA1fQ.4gkSqgBSTnIN6HqB4beZaYdVvJcZe0OnoUO7B_6ZMpA",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"currentPassword\": \"Abcd@12345\",\r\n    \"newPassword\": \"Abcd@1234\",\r\n    \"rePassword\": \"Abcd@1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/users/updatePassword",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"users",
+								"updatePassword"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SOFT DELETE",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Admin eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YmU0OWJmODNjOWMxOTA1NDk5ZTk0OSIsImlhdCI6MTc0MDUyNTY1OSwiZXhwIjoxNzQwNjEyMDU5fQ.8eUMOM-mCVyfZVYHl3eRb5tre8YmABOzGcolL8IokAU",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/users/delete/67be4a0483c9c1905499e94d",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"users",
+								"delete",
+								"67be4a0483c9c1905499e94d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPD PROFILE/COVER PIC",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzFjOWM4MTk4ZDBlMzdlYmQwMmY3YSIsImlhdCI6MTc0MDc1MzU4NSwiZXhwIjoxNzQwODM5OTg1fQ.jNTxNO95SotJ6_-TAFBSHBMO6lPg9RCuh4TGhJQ_ztc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "attachments",
+									"type": "file",
+									"src": "/C:/Users/Nadeem/Desktop/unnamed.webp"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/users/updateUserPicture/profile",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"users",
+								"updateUserPicture",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "LOGGED IN PROFILE",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzFjOWM4MTk4ZDBlMzdlYmQwMmY3YSIsImlhdCI6MTc0MDc1MzU4NSwiZXhwIjoxNzQwODM5OTg1fQ.jNTxNO95SotJ6_-TAFBSHBMO6lPg9RCuh4TGhJQ_ztc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/users/me",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"users",
+								"me"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PROFILE BY ID",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzFjOWM4MTk4ZDBlMzdlYmQwMmY3YSIsImlhdCI6MTc0MDc1MzU4NSwiZXhwIjoxNzQwODM5OTg1fQ.jNTxNO95SotJ6_-TAFBSHBMO6lPg9RCuh4TGhJQ_ztc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/users/67c1c9c8198d0e37ebd02f7a",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"users",
+								"67c1c9c8198d0e37ebd02f7a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DEL PROFILE/COVER PIC",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzFjOWM4MTk4ZDBlMzdlYmQwMmY3YSIsImlhdCI6MTc0MDc1MzU4NSwiZXhwIjoxNzQwODM5OTg1fQ.jNTxNO95SotJ6_-TAFBSHBMO6lPg9RCuh4TGhJQ_ztc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/users/deleteUserPicture/profile",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"users",
+								"deleteUserPicture",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "COMPANY",
+			"item": [
+				{
+					"name": "CREATE",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzFjOWM4MTk4ZDBlMzdlYmQwMmY3YSIsImlhdCI6MTc0MDc1MzU4NSwiZXhwIjoxNzQwODM5OTg1fQ.jNTxNO95SotJ6_-TAFBSHBMO6lPg9RCuh4TGhJQ_ztc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "companyName",
+									"value": "Hamada",
+									"type": "text"
+								},
+								{
+									"key": "companyEmail",
+									"value": "lol@gmail.com",
+									"type": "text"
+								},
+								{
+									"key": "companyAddress",
+									"value": "Alexandria",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "test any thing...",
+									"type": "text"
+								},
+								{
+									"key": "industry",
+									"value": "Tech",
+									"type": "text"
+								},
+								{
+									"key": "numberOfEmployees",
+									"value": "1-10",
+									"type": "text"
+								},
+								{
+									"key": "HRs[]",
+									"value": "67c02d89594ce805b3e7692c",
+									"type": "text"
+								},
+								{
+									"key": "legalAttachments",
+									"type": "file",
+									"src": "/C:/Users/Nadeem/Desktop/unnamed.webp"
+								},
+								{
+									"key": "HRs[]",
+									"value": "67bea7e8f3253d8995f5ab33",
+									"type": "text",
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/company/create",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"company",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SOFT DELETE",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzFjOWM4MTk4ZDBlMzdlYmQwMmY3YSIsImlhdCI6MTc0MDc1MzU4NSwiZXhwIjoxNzQwODM5OTg1fQ.jNTxNO95SotJ6_-TAFBSHBMO6lPg9RCuh4TGhJQ_ztc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/company/delete/67bea9bc4d54a20f41291a59",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"company",
+								"delete",
+								"67bea9bc4d54a20f41291a59"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SEARCH BY NAME",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/company/search/?name=a&page=2",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"company",
+								"search",
+								""
+							],
+							"query": [
+								{
+									"key": "name",
+									"value": "a"
+								},
+								{
+									"key": "page",
+									"value": "2"
+								},
+								{
+									"key": "limit",
+									"value": "5",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPLOAD COVER/LOGO",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzFjOWM4MTk4ZDBlMzdlYmQwMmY3YSIsImlhdCI6MTc0MDc1MzU4NSwiZXhwIjoxNzQwODM5OTg1fQ.jNTxNO95SotJ6_-TAFBSHBMO6lPg9RCuh4TGhJQ_ztc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "attachments",
+									"type": "file",
+									"src": "/C:/Users/Nadeem/Desktop/unnamed.webp"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/company/uploadLogoAndCover/67bebb8cc05f5ceef46ae66f/logo",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"company",
+								"uploadLogoAndCover",
+								"67bebb8cc05f5ceef46ae66f",
+								"logo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE COVER/LOGO",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzFjOWM4MTk4ZDBlMzdlYmQwMmY3YSIsImlhdCI6MTc0MDc1MzU4NSwiZXhwIjoxNzQwODM5OTg1fQ.jNTxNO95SotJ6_-TAFBSHBMO6lPg9RCuh4TGhJQ_ztc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/company/deletePicture/67c1cccc198d0e37ebd02fc6/logo",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"company",
+								"deletePicture",
+								"67c1cccc198d0e37ebd02fc6",
+								"logo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "COMPANY WITH JOBS",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzFjOWM4MTk4ZDBlMzdlYmQwMmY3YSIsImlhdCI6MTc0MDc1MzU4NSwiZXhwIjoxNzQwODM5OTg1fQ.jNTxNO95SotJ6_-TAFBSHBMO6lPg9RCuh4TGhJQ_ztc",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/company/67c1cccc198d0e37ebd02fc6",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"company",
+								"67c1cccc198d0e37ebd02fc6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE COMPANY",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzFjOWM4MTk4ZDBlMzdlYmQwMmY3YSIsImlhdCI6MTc0MDc1MzU4NSwiZXhwIjoxNzQwODM5OTg1fQ.jNTxNO95SotJ6_-TAFBSHBMO6lPg9RCuh4TGhJQ_ztc",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"numberOfEmployees\": \"500+\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/company/update/67c1cccc198d0e37ebd02fc6",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"company",
+								"update",
+								"67c1cccc198d0e37ebd02fc6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "EXPORT TO EXCEL",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Admin eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzFjOWM4MTk4ZDBlMzdlYmQwMmY3YSIsImlhdCI6MTc0MDc3ODE0MSwiZXhwIjoxNzQwODY0NTQxfQ.M8ojiEtWQR2cqRaUVTwzD1pvty12iBrd8ATC2XJQ81M",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/company/67c1cccc198d0e37ebd02fc6/applications/export?date=2025-02-28",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"company",
+								"67c1cccc198d0e37ebd02fc6",
+								"applications",
+								"export"
+							],
+							"query": [
+								{
+									"key": "date",
+									"value": "2025-02-28"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "JOBS",
+			"item": [
+				{
+					"name": "JOBS BY COMPANY",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/jobs/67c1cccc198d0e37ebd02fc6",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"jobs",
+								"67c1cccc198d0e37ebd02fc6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "JOBS BY FILTER",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/jobs",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"jobs"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "seniorityLevel",
+									"value": "fresh",
+									"disabled": true
+								},
+								{
+									"key": "technicalSkills",
+									"value": "css",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "CREATE",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Admin eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzFjOWM4MTk4ZDBlMzdlYmQwMmY3YSIsImlhdCI6MTc0MDc3ODE0MSwiZXhwIjoxNzQwODY0NTQxfQ.M8ojiEtWQR2cqRaUVTwzD1pvty12iBrd8ATC2XJQ81M",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"jobTitle\": \"Junior Developer\",\r\n    \"jobLocation\": \"hybrid\",\r\n    \"workingTime\": \"full-time\",\r\n    \"seniorityLevel\": \"fresh\",\r\n    \"jobDescription\": \"test\",\r\n    \"technicalSkills\": [\"html\", \"css\", \"javascript\"],\r\n    \"softSkills\": [\"agile\"]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/jobs/create",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"jobs",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APPLY TO JOB",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzIyOTAwZDFjNDc4NmJlNDA2NDc4YSIsImlhdCI6MTc0MDc3Nzg4MSwiZXhwIjoxNzQwODY0MjgxfQ.pus4KTzSBmRAo4FN35ioEpg91UZDjGMdPA01iVHTcaQ",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "attachments",
+									"type": "file",
+									"src": "/C:/Users/Nadeem/Desktop/sample.pdf"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/jobs/applyToJob/67c22ab6d1c4786be40647ab",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"jobs",
+								"applyToJob",
+								"67c22ab6d1c4786be40647ab"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APPLICATIONS",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YmYzNzAyZTA4ZDZiMWUwYjdkOTY3YSIsImlhdCI6MTc0MDU4NDc0NiwiZXhwIjoxNzQwNjcxMTQ2fQ.Dl_UMlX7iBXap9b7oqCKsjusnQ8K9fm_lG8dGd_sHBE",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/jobs/applications/67bf923cdcae7b2bf58fdd22",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"jobs",
+								"applications",
+								"67bf923cdcae7b2bf58fdd22"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "APPLICATION STATUS",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Admin eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzFjOWM4MTk4ZDBlMzdlYmQwMmY3YSIsImlhdCI6MTc0MDc3ODE0MSwiZXhwIjoxNzQwODY0NTQxfQ.M8ojiEtWQR2cqRaUVTwzD1pvty12iBrd8ATC2XJQ81M",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"status\":\"rejected\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/jobs/applicationStatus/67c22aefd1c4786be40647b2",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"jobs",
+								"applicationStatus",
+								"67c22aefd1c4786be40647b2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "UPDATE JOB",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Admin eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzFjOWM4MTk4ZDBlMzdlYmQwMmY3YSIsImlhdCI6MTc0MDc3ODE0MSwiZXhwIjoxNzQwODY0NTQxfQ.M8ojiEtWQR2cqRaUVTwzD1pvty12iBrd8ATC2XJQ81M",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"jobTitle\":\"Senior Developer\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/jobs/update/67c22ab6d1c4786be40647ab",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"jobs",
+								"update",
+								"67c22ab6d1c4786be40647ab"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "CHAT",
+			"item": [
+				{
+					"name": "CHAT HISTORY",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YmYzNzAyZTA4ZDZiMWUwYjdkOTY3YSIsImlhdCI6MTc0MDY1OTgzMywiZXhwIjoxNzQwNzQ2MjMzfQ.K-BabHcFurxGeSI56Mk8vtR_PripxZyw0I1za6zVeZY",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/chats/67bf3702e08d6b1e0b7d967a",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"chats",
+								"67bf3702e08d6b1e0b7d967a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SEND",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzAyZDg5NTk0Y2U4MDViM2U3NjkyYyIsImlhdCI6MTc0MDY2MTc0NSwiZXhwIjoxNzQwNzQ4MTQ1fQ.0rO6TguON0bqNv7n71OabtcslKtB1CZZaQIpnEyu-Xk",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"content\": \"Hi\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BaseUrl}}/chats/send/67bf3702e08d6b1e0b7d967a",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"chats",
+								"send",
+								"67bf3702e08d6b1e0b7d967a"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "ADMIN",
+			"item": [
+				{
+					"name": "BAN/UNBAN USER",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Admin eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY3YzExM2QyYmJhYWVmNzczYzZjNjdmOSIsImlhdCI6MTc0MDcyNDQ2MCwiZXhwIjoxNzQwODEwODYwfQ.iNgHde07TWeTEWPfRdhWgh_GVou7-o47SBj-5jVbKKA",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{BaseUrl}}/admin/userActions/67c113d2bbaaef773c6c67f9/unban",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"admin",
+								"userActions",
+								"67c113d2bbaaef773c6c67f9",
+								"unban"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "BAN/UNBAN COMPANY",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BaseUrl}}/admin/companyActions/67c02eda594ce805b3e76944/uban",
+							"host": [
+								"{{BaseUrl}}"
+							],
+							"path": [
+								"admin",
+								"companyActions",
+								"67c02eda594ce805b3e76944",
+								"uban"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "BaseUrl",
+			"value": "http://localhost:5500/api",
+			"type": "default"
+		}
+	]
+}

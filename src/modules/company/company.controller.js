@@ -43,7 +43,7 @@ router.post(
 // - The 'uploadLogoAndCover' validator ensures the request data is correct
 // - Only images are allowed for this upload (no documents)
 router.post(
-    createPath('uploadLogoAndCover/:companyId/:type'),
+    createPath('uploadLogoAndCover/:companyId/:type'), // type: logo or cover
     fileUpload(FileTypes.IMAGES).single('attachments'), // Handle single file upload for images (logo or cover)
     validation(validators.uploadLogoAndCover, { includeHeaders: true, includeFiles: true }), // Validate the request and the uploaded file
     authenticate, // Ensure the user is authenticated
@@ -71,7 +71,7 @@ router.patch(
 
 // DELETE Routes
 
-// Route to delete a company picture (logo or cover)
+// Route to delete a company picture (type: logo or cover)
 router.delete(createPath('deletePicture/:companyId/:type'), authenticate, asyncHandler(service.deletePicture));
 
 export default router;

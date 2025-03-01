@@ -88,7 +88,7 @@ export const getAllCompanyJobs = async (req, res, next) => {
 
     const totalCount = await JobOpportunity.countDocuments(query);
 
-    res.success({ totalCount, jobs: jobs.length > 0 ? jobs : "No jobs found" }, '🔍 Jobs fetched successfully');
+    res.success({ totalCount, jobs: jobs.length > 0 ? jobs : 'No jobs found' }, '🔍 Jobs fetched successfully');
 };
 
 // * GET route 🔍: Fetch all jobs with filters
@@ -146,15 +146,18 @@ export const addJobApplication = async (req, res, next) => {
     const { jobId } = req.params;
     const userId = req.user._id;
 
+    // Check if the job exists
     const job = await JobOpportunity.findById(jobId);
     if (!job) {
         return handleError('Job not found', 404, next);
     }
 
+    // Check if the user uploaded a CV
     if (!req.file) {
         return handleError('Please upload a CV', 400, next);
     }
 
+    // Check if the user has already applied to this job
     const existingApplication = await Application.findOne({ jobId, userId });
     if (existingApplication) {
         return handleError('You have already applied to this job', 400, next);
@@ -162,6 +165,7 @@ export const addJobApplication = async (req, res, next) => {
 
     const application = await Application.create({ jobId, userId });
 
+    // Get the applicant details and send an email
     const applicant = await Application.findOne({ userId })
         .populate({ path: 'jobId', populate: { path: 'companyId' } })
         .populate('userId');
@@ -223,9 +227,16 @@ export const acceptOrRejectApplicant = async (req, res, next) => {
         return handleError('Please provide a status', 400, next);
     }
 
+    // Check if the status is either "accepted" or "rejected"
+    if (req.body.status !== 'accepted' && req.body.status !== 'rejected') {
+        return handleError('Status must be either "accepted" or "rejected"', 400, next);
+    }
+
+    // Update the status
     application.status = req.body.status;
     await application.save();
 
+    // Send an email to the applicant if rejected or accepted
     if (application.status) {
         EmailEvent.emit('applicationStatus', {
             email: application.userId.email,

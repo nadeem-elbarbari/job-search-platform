@@ -18,7 +18,7 @@ router.post(createPath('logIn'), validation(validators.logIn), asyncHandler(serv
 // Log in an existing user (Validates input using 'validators.logIn')
 
 router.post(createPath('googleAuth'), asyncHandler(service.googleAuth));
-// Google authentication for logging in (No input validation needed)
+// Google authentication for logging in or registering (No input validation needed)
 
 router.post(createPath('confirmEmail'), validation(validators.confirmEmail), asyncHandler(service.emailConfirmation));
 // Confirm email address (Validates input using 'validators.confirmEmail')
